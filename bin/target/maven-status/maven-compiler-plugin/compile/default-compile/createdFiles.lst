@@ -1,0 +1,8 @@
+com\in\fmc\userservice\repositories\RegisterRepository.class
+com\in\fmc\userservice\entities\Login.class
+com\in\fmc\userservice\UserServiceApplication.class
+com\in\fmc\userservice\dtos\RegistrationDto.class
+com\in\fmc\userservice\services\LoginAndRegisterService.class
+com\in\fmc\userservice\services\LoginAndRegisterServiceImpl.class
+com\in\fmc\userservice\repositories\LoginRepository.class
+com\in\fmc\userservice\entities\Register.class
