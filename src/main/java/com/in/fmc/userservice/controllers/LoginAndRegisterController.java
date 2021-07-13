@@ -1,5 +1,7 @@
 package com.in.fmc.userservice.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class LoginAndRegisterController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<String> register(@RequestBody RegistrationDto registrationDto,
+	public ResponseEntity<String> register(@Valid @RequestBody RegistrationDto registrationDto,
 			@RequestHeader HttpHeaders httpHeaders) {
 
 		log.debug("Request for resgister with username: {}, and correlationId: {}", registrationDto.getUsername(),
