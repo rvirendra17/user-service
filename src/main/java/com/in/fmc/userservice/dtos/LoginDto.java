@@ -10,11 +10,11 @@ public class LoginDto {
 
 	@JsonProperty(value = "username")
 	private String username;
+
 	@JsonProperty(value = "password")
 	private String password;
 
 	public static Login mapToLogin(LoginDto loginDto) {
-
 		Login login = new Login();
 		login.setUsername(loginDto.getUsername());
 		login.setPassword(loginDto.getPassword());

@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.in.fmc.userservice.constants.ExceptionConstants;
 import com.in.fmc.userservice.entities.Login;
 import com.in.fmc.userservice.entities.Register;
+import com.in.fmc.userservice.exceptions.InvalidCredentialsException;
+import com.in.fmc.userservice.exceptions.UsernameOccupiedException;
 import com.in.fmc.userservice.repositories.LoginRepository;
 import com.in.fmc.userservice.repositories.RegisterRepository;
 import com.in.fmc.userservice.utils.Utils;
@@ -34,27 +37,27 @@ public class LoginAndRegisterServiceImpl implements LoginAndRegisterService {
 			return new ResponseEntity<String>("Logged in successfully", HttpStatus.OK);
 		}
 
-		return new ResponseEntity<String>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+		throw new InvalidCredentialsException(ExceptionConstants.INVALID_CREDENTIALS_EXCEPTION_MESSAGE);
 	}
 
 	@Override
 	public ResponseEntity<String> register(Register register) {
-		
-		Optional<Login> optionalLogin=loginRepository.findByUsername(register.getLogin().getUsername());
-		
-		if(!optionalLogin.isPresent()) {
 
-			Login login=register.getLogin();
+		Optional<Login> optionalLogin = loginRepository.findByUsername(register.getLogin().getUsername());
+
+		if (!optionalLogin.isPresent()) {
+
+			Login login = register.getLogin();
 			login.setRegister(register);
-			
+
 			login.setPassword(Utils.secureHash(login.getPassword()));
-			
+
 			registerRepository.save(register);
-			
+
 			return new ResponseEntity<String>("Registered successfully", HttpStatus.CREATED);
 		}
 
-		return new ResponseEntity<String>("Username not available, kindly try another username :)", HttpStatus.NOT_ACCEPTABLE);
+		throw new UsernameOccupiedException(ExceptionConstants.USERNAME_OCCUPIED_EXCEPTION_MESSAGE);
 	}
 
 }
