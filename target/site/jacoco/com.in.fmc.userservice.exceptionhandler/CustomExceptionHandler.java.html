@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.in.fmc.userservice.constants.ExceptionConstants;
+import com.in.fmc.userservice.controllers.LoginAndRegisterController;
 import com.in.fmc.userservice.exceptions.InvalidCredentialsException;
 import com.in.fmc.userservice.exceptions.UsernameOccupiedException;
 import com.in.fmc.userservice.models.ErrorResource;
@@ -22,26 +23,26 @@ import com.in.fmc.userservice.models.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
-<span class="nc" id="L25">@Slf4j</span>
-@ControllerAdvice
-<span class="nc" id="L27">public class CustomExceptionHandler extends ResponseEntityExceptionHandler {</span>
+<span class="nc" id="L26">@Slf4j</span>
+@ControllerAdvice(basePackageClasses = LoginAndRegisterController.class)
+<span class="nc" id="L28">public class CustomExceptionHandler extends ResponseEntityExceptionHandler {</span>
 
 	@Override
 	protected ResponseEntity&lt;Object&gt; handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
 
-<span class="nc" id="L34">		log.error(&quot;Exception occured - MethodArgumentNotValidException: {}&quot;, ex);</span>
+<span class="nc" id="L35">		log.error(&quot;Exception occured - MethodArgumentNotValidException: {}&quot;, ex);</span>
 
-<span class="nc" id="L36">		Set&lt;String&gt; errors = ex.getBindingResult().getFieldErrors().stream().map(error -&gt; error.getDefaultMessage())</span>
-<span class="nc" id="L37">				.collect(Collectors.toSet());</span>
+<span class="nc" id="L37">		Set&lt;String&gt; errors = ex.getBindingResult().getFieldErrors().stream().map(error -&gt; error.getDefaultMessage())</span>
+<span class="nc" id="L38">				.collect(Collectors.toSet());</span>
 
-<span class="nc" id="L39">		errors.addAll(ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)</span>
-<span class="nc" id="L40">				.collect(Collectors.toSet()));</span>
+<span class="nc" id="L40">		errors.addAll(ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)</span>
+<span class="nc" id="L41">				.collect(Collectors.toSet()));</span>
 
-<span class="nc" id="L42">		String errorString = errors.stream().sorted().collect(Collectors.joining(&quot;, &quot;));</span>
+<span class="nc" id="L43">		String errorString = errors.stream().sorted().collect(Collectors.joining(&quot;, &quot;));</span>
 
-<span class="nc" id="L44">		return createErrorResponse(ExceptionConstants.VALIDATION_ERROR_MESSAGE + errorString, status, request);</span>
+<span class="nc" id="L45">		return createErrorResponse(ExceptionConstants.VALIDATION_ERROR_MESSAGE + errorString, status, request);</span>
 
 	}
 
@@ -49,33 +50,33 @@ import lombok.extern.slf4j.Slf4j;
 	private ResponseEntity&lt;Object&gt; handleInvalidCredentialsException(InvalidCredentialsException icex,
 			WebRequest webRequest) {
 
-<span class="nc" id="L52">		log.error(&quot;Exception occured - InvalidCredentialsException: {}&quot;, icex);</span>
-<span class="nc" id="L53">		return createErrorResponse(icex.getMessage(), HttpStatus.UNAUTHORIZED, webRequest);</span>
+<span class="nc" id="L53">		log.error(&quot;Exception occured - InvalidCredentialsException: {}&quot;, icex);</span>
+<span class="nc" id="L54">		return createErrorResponse(icex.getMessage(), HttpStatus.UNAUTHORIZED, webRequest);</span>
 
 	}
 
 	@ExceptionHandler(UsernameOccupiedException.class)
 	private ResponseEntity&lt;Object&gt; handleUsernameOccupiedException(UsernameOccupiedException uoex,
 			WebRequest webRequest) {
-<span class="nc" id="L60">		log.error(&quot;Exception occured - UsernameOccupiedException: {}&quot;, uoex);</span>
+<span class="nc" id="L61">		log.error(&quot;Exception occured - UsernameOccupiedException: {}&quot;, uoex);</span>
 
-<span class="nc" id="L62">		return createErrorResponse(uoex.getMessage(), HttpStatus.NOT_ACCEPTABLE, webRequest);</span>
+<span class="nc" id="L63">		return createErrorResponse(uoex.getMessage(), HttpStatus.NOT_ACCEPTABLE, webRequest);</span>
 	}
 
 	private static ResponseEntity&lt;Object&gt; createErrorResponse(String errmsg, HttpStatus httpStatus,
 			WebRequest webRequest) {
 
-<span class="nc" id="L68">		String title = httpStatus.name();</span>
-<span class="nc" id="L69">		Integer status = httpStatus.value();</span>
+<span class="nc" id="L69">		String title = httpStatus.name();</span>
+<span class="nc" id="L70">		Integer status = httpStatus.value();</span>
 
-<span class="nc" id="L71">		String uri = ((ServletWebRequest) webRequest).getRequest().getRequestURI();</span>
-<span class="nc" id="L72">		String type = ExceptionConstants.RESPONSE_TYPE_DEFINITION;</span>
+<span class="nc" id="L72">		String uri = ((ServletWebRequest) webRequest).getRequest().getRequestURI();</span>
+<span class="nc" id="L73">		String type = ExceptionConstants.RESPONSE_TYPE_DEFINITION;</span>
 
-<span class="nc" id="L74">		ErrorResource errorResource = new ErrorResource(type, title, status, errmsg, uri);</span>
+<span class="nc" id="L75">		ErrorResource errorResource = new ErrorResource(type, title, status, errmsg, uri);</span>
 
-<span class="nc" id="L76">		ErrorResponse errorResponse = new ErrorResponse(errorResource);</span>
+<span class="nc" id="L77">		ErrorResponse errorResponse = new ErrorResponse(errorResource);</span>
 
-<span class="nc" id="L78">		return new ResponseEntity&lt;&gt;(errorResponse, httpStatus);</span>
+<span class="nc" id="L79">		return new ResponseEntity&lt;&gt;(errorResponse, httpStatus);</span>
 
 	}
 }
