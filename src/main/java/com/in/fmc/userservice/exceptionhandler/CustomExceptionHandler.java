@@ -15,7 +15,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.in.fmc.userservice.constants.ExceptionConstants;
-import com.in.fmc.userservice.controllers.LoginAndRegisterController;
 import com.in.fmc.userservice.exceptions.InvalidCredentialsException;
 import com.in.fmc.userservice.exceptions.UsernameOccupiedException;
 import com.in.fmc.userservice.models.ErrorResource;
@@ -24,7 +23,7 @@ import com.in.fmc.userservice.models.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ControllerAdvice(basePackageClasses = LoginAndRegisterController.class)
+@ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
