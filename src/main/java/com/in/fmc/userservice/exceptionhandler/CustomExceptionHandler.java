@@ -61,6 +61,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return createErrorResponse(uoex.getMessage(), HttpStatus.NOT_ACCEPTABLE, webRequest);
 	}
+	
+	
 
 	private static ResponseEntity<Object> createErrorResponse(String errmsg, HttpStatus httpStatus,
 			WebRequest webRequest) {
