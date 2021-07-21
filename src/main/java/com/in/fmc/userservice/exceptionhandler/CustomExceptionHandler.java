@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,7 +35,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		log.error("Exception occured - MethodArgumentNotValidException: {}", ex);
 
-		Set<String> errors = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getDefaultMessage())
+		Set<String> errors = ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage)
 				.collect(Collectors.toSet());
 
 		errors.addAll(ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
