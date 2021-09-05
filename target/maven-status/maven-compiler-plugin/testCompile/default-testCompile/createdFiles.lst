@@ -1,0 +1,4 @@
+com\in\fmc\userservice\UserServiceApplicationTests.class
+com\in\fmc\userservice\services\LoginAndRegisterServiceImplTest.class
+com\in\fmc\userservice\TestSuiteClass.class
+com\in\fmc\userservice\utils\UtilsTest.class
